@@ -14,31 +14,31 @@ const buttonDiv = document.querySelector("#content_host > form > div[style]");
 const textBox = document.getElementById("post_textbox");
 let str = "";
 
-(async function() {
+(async function () {
     'use strict';
 
-    createButton("#7323c4","#5023cc","Paste users",()=>{
-        getUsers().then(value=>{
+    createButton("#7323c4", "#5023cc", "Paste users", () => {
+        getUsers().then(value => {
             textBox.value += generateList(value);
         });
     });
 })();
 
-function createButton(gradientStart,gradientEnd,text,callbackFn) {
+function createButton(gradientStart, gradientEnd, text, callbackFn) {
     const btn = document.createElement("button");
     btn.innerHTML = text;
     btn.type = "button";
     btn.style.background = `linear-gradient(${gradientStart}, ${gradientEnd})`;
-    btn.addEventListener('click',callbackFn);
+    btn.addEventListener('click', callbackFn);
     buttonDiv.prepend(btn);
 }
 
 function generateList(html) {
     str = "";
     getUsers();
-    html.querySelectorAll("#forum_main_usersonline a").forEach((element,index)=>{
+    html.querySelectorAll("#forum_main_usersonline a").forEach((element, index) => {
         const lin = html.querySelectorAll("#forum_main_usersonline a").length;
-        str += `<b><link url="//twocansandstring.com/users/${element.textContent.replace(/\W/ig,"")}">${element.textContent}</link></b>${index == lin-2 ? ', and ' : (index == lin-1 ? '' : ', ')}`;
+        str += `<b><link url="//twocansandstring.com/users/${element.textContent.replace(/\W/ig, "")}">${element.textContent}</link></b>${index == lin - 2 ? ', and ' : (index == lin - 1 ? '' : ', ')}`;
     });
     return str;
 }
@@ -69,6 +69,6 @@ function makeRequest(method, url) {
 } // THX STACK OVERFLOW
 
 async function getUsers() {
-    const response = await makeRequest("GET","https://twocansandstring.com/forum");
+    const response = await makeRequest("GET", "https://twocansandstring.com/forum");
     return response;
 }
