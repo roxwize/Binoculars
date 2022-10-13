@@ -51,7 +51,7 @@ function generateList(html) {
 
     userLinks.forEach((element, index) => {
         const lin = userLinks.length;
-        str += `<b><link url="//twocansandstring.com/users/${element.textContent.replace(/\W/ig, "")}">${element.textContent}</link></b>${index == lin - 2 ? ', and ' : (index == lin - 1 ? '' : ', ')}`;
+        str += `<b><link url="//twocansandstring.com/users/${element.textContent.replace(/\W_/ig, "")}">${element.textContent}</link></b>${index == lin - 2 ? ', and ' : (index == lin - 1 ? '' : ', ')}`;
     });
 
     return str;
