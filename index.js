@@ -6,6 +6,7 @@
 // @author       Theki / Hoylecake
 // @match        https://twocansandstring.com/forum/sandbox/3382/reply
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=twocansandstring.com
+// @license      GNU GPLv3
 // @grant        none
 // ==/UserScript==
 
@@ -37,7 +38,7 @@ function generateList(html) {
     getUsers();
     html.querySelectorAll("#forum_main_usersonline a").forEach((element,index)=>{
         const lin = html.querySelectorAll("#forum_main_usersonline a").length;
-        str += `<b><link url="//twocansandstring.com/users/${element.textContent}">${element.textContent}</link></b>${index == lin-2 ? ', and ' : (index == lin-1 ? '' : ', ')}`
+        str += `<b><link url="//twocansandstring.com/users/${element.textContent}">${element.textContent}</link></b>${index == lin-2 ? ', and ' : (index == lin-1 ? '' : ', ')}`;
     });
     return str;
 }
