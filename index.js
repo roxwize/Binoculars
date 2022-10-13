@@ -14,6 +14,10 @@ const buttonDiv = document.querySelector("#content_host > form > div[style]");
 const textBox = document.getElementById("post_textbox");
 let str = "";
 
+const config = {
+    disableMarkov: true
+};
+
 (async function () {
     'use strict';
 
@@ -35,11 +39,21 @@ function createButton(gradientStart, gradientEnd, text, callbackFn) {
 
 function generateList(html) {
     str = "";
-    getUsers();
-    html.querySelectorAll("#forum_main_usersonline a").forEach((element, index) => {
-        const lin = html.querySelectorAll("#forum_main_usersonline a").length;
+    //getUsers(); does this make an unnecessary request?
+    let userLinks = Array.from(html.querySelectorAll("#forum_main_usersonline a"));
+    userLinks = userLinks.filter(userLink => {
+        // filter out Markov if we should hide him
+        if (config.disableMarkov && userLink.textContent == "Markov") {
+            return false;
+        }
+        return true;
+    });
+
+    userLinks.forEach((element, index) => {
+        const lin = userLinks.length;
         str += `<b><link url="//twocansandstring.com/users/${element.textContent.replace(/\W/ig, "")}">${element.textContent}</link></b>${index == lin - 2 ? ', and ' : (index == lin - 1 ? '' : ', ')}`;
     });
+
     return str;
 }
 
