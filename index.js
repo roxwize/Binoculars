@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Binoculars
 // @namespace    https://theki.club/
-// @version      1.0.1
+// @version      1.0.2
 // @description  Paste a list of the online users in a neatly-formatted way.
 // @author       Theki / Hoylecake
 // @match        https://twocansandstring.com/forum/sandbox/3382/reply
