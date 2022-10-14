@@ -20,6 +20,11 @@ const config = {
         desc: "Exclude Markov",
         default: true,
         value: true
+    },
+    secretMarkov: {
+        desc: "Include Markov if he isn't online <sub>(just for a bit of fun;))</sub>",
+        default: false,
+        value: false
     }
 };
 
@@ -33,6 +38,8 @@ const config = {
         });
     });
 })();
+
+const rand = (min, max) => Math.floor(Math.random() * (Math.ceil(min) - Math.floor(max) + 1)) + Math.ceil(min);
 
 function createButton(gradientStart, gradientEnd, text, callbackFn) {
     const btn = document.createElement("button");
@@ -74,6 +81,14 @@ function createTable(title,tableContent) {
 function generateList(html) {
     str = "";
     let userLinks = Array.from(html.querySelectorAll("#forum_main_usersonline a"));
+    if (userLinks.filter(userLink => { // This could definitely be optimized, but I couldn't find a way to check .includes for HTMLElements.
+        if (userLink.textContent == "Markov") return true;
+    }).length == 0 && config.secretMarkov.value) {
+        const markov = document.createElement("a");
+        markov.href = "/users/Markov";
+        markov.textContent = "Markov?";
+        userLinks.splice(rand(1, userLinks.length < 2 ? 1 : userLinks.length - 1),0,markov);
+    };
     userLinks = userLinks.filter(userLink => {
         // filter out Markov if we should hide him
         if (config.disableMarkov.value && userLink.textContent == "Markov") {
