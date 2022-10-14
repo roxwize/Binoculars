@@ -11,7 +11,7 @@
 // ==/UserScript==
 
 const buttonDiv = document.querySelector("#content_host > form > div[style]");
-const lowerDiv = document.querySelector("#content_host > div"); // This is the area below the textarea
+const lowerDiv = document.querySelector("#content_host > div[style*=\"text-align:left;\"]"); // This is the area below the textarea
 const textBox = document.getElementById("post_textbox");
 let str = "";
 
