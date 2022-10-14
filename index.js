@@ -25,6 +25,16 @@ const config = {
         desc: "Include Markov if he isn't online <sub>(just for a bit of fun;))</sub>",
         default: false,
         value: false
+    },
+    prefix: {
+        desc: "Include this before users:",
+        default: "Users online: ",
+        value: "Users online: "
+    },
+    suffix: {
+        desc: "Include this after users:",
+        default: " are online.",
+        value: " are online."
     }
 };
 
@@ -65,6 +75,10 @@ function createTable(title,tableContent) {
                 inp.type = "checkbox";
                 inp.checked = value.default;
                 break;
+            case "string":
+                inp.type = "text";
+                inp.placeholder = value.default;
+                inp.value = value.default;
             // Add more type considerations as you add more configuration options
         }
         inp.addEventListener("change",() => {
@@ -96,11 +110,12 @@ function generateList(html) {
         }
         return true;
     });
-
+    if (config.prefix.value) str += config.prefix.value;
     userLinks.forEach((element, index) => {
         const lin = userLinks.length;
         str += `<b><link url="//twocansandstring.com/users/${element.textContent.replace(/\W|_/ig, "")}">${element.textContent}</link></b>${index == lin - 2 ? ', and ' : (index == lin - 1 ? '' : ', ')}`;
     });
+    if (config.suffix.value) str += config.suffix.value;
 
     return str;
 }
