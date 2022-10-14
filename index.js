@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Binoculars
 // @namespace    https://theki.club/
-// @version      1.2.1
+// @version      1.2.2
 // @description  Paste a list of the online users in a neatly-formatted way.
 // @author       Theki / Hoylecake
 // @match        https://twocansandstring.com/forum/sandbox/3382/reply
@@ -82,7 +82,7 @@ function createTable(title,tableContent) {
             // Add more type considerations as you add more configuration options
         }
         inp.addEventListener("change",() => {
-            value.value = inp.checked;
+            value.value = inp.type === "checkbox" ? inp.checked : inp.value;
         });
         tr.appendChild(inp);
         tbody.appendChild(tr);
