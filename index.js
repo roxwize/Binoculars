@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Binoculars
 // @namespace    https://theki.club/
-// @version      1.0.2
+// @version      1.1
 // @description  Paste a list of the online users in a neatly-formatted way.
 // @author       Theki / Hoylecake
 // @match        https://twocansandstring.com/forum/sandbox/3382/reply
@@ -11,16 +11,22 @@
 // ==/UserScript==
 
 const buttonDiv = document.querySelector("#content_host > form > div[style]");
+const lowerDiv = document.querySelector("#content_host > div"); // This is the area below the textarea
 const textBox = document.getElementById("post_textbox");
 let str = "";
 
 const config = {
-    disableMarkov: true
+    disableMarkov: {
+        desc: "Exclude Markov",
+        default: true,
+        value: true
+    }
 };
 
 (async function () {
     'use strict';
 
+    createTable("Binoculars configuration",config);
     createButton("#7323c4", "#5023cc", "Paste users", () => {
         getUsers().then(value => {
             textBox.value += generateList(value);
@@ -36,14 +42,41 @@ function createButton(gradientStart, gradientEnd, text, callbackFn) {
     btn.addEventListener('click', callbackFn);
     buttonDiv.prepend(btn);
 }
+function createTable(title,tableContent) {
+    const container = document.createElement("div");
+    container.innerHTML = `<h3>${title}</h3>`;
+    const table = document.createElement("table");
+    table.style = "font-size:9pt; width:50%";
+    table.cellPadding = 8;
+    const tbody = document.createElement("tbody");
+    for (let [key,value] of Object.entries(tableContent)) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${value.desc}</td>`
+        const inp = document.createElement("input");
+        switch (typeof value.default) {
+            case "boolean":
+                inp.type = "checkbox";
+                inp.checked = value.default;
+                break;
+            // Add more type considerations as you add more configuration options
+        }
+        inp.addEventListener("change",() => {
+            value.value = inp.checked;
+        });
+        tr.appendChild(inp);
+        tbody.appendChild(tr);
+    }
+    table.appendChild(tbody);
+    container.appendChild(table);
+    lowerDiv.prepend(container);
+}
 
 function generateList(html) {
     str = "";
-    //getUsers(); does this make an unnecessary request?
     let userLinks = Array.from(html.querySelectorAll("#forum_main_usersonline a"));
     userLinks = userLinks.filter(userLink => {
         // filter out Markov if we should hide him
-        if (config.disableMarkov && userLink.textContent == "Markov") {
+        if (config.disableMarkov.value && userLink.textContent == "Markov") {
             return false;
         }
         return true;
