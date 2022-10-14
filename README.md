@@ -8,3 +8,7 @@ Binoculars is a Tampermonkey script that lets you automatically paste a neatly-f
 - [ ] Let users add user avatars if they wish
 - [x] In-page options menu
   - [ ] Saving user configs in local storage
+  
+## Config todo
+- [ ] Fix the config appearing above the preview window
+- [ ] Make the list of excluded users customizable
